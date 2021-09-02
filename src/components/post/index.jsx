@@ -1,9 +1,14 @@
 import PropTypes from "prop-types";
+import { useRef } from "react";
 import Actions from "./actions";
+import Comments from "./comments";
+import Footer from "./footer";
 import Header from "./header";
 import Image from "./image";
 
 export default function Post({ content }) {
+  const commentInput = useRef(null);
+  const handleFocus = () => commentInput.current.focus();
   return (
     <div className="rounded col-span-4 border bg-white border-gray-primary mb-12">
       <Header username={content.username} />
@@ -14,13 +19,20 @@ export default function Post({ content }) {
         likedPhoto={content.userLikedPhoto}
         handleFocus={handleFocus}
       />
+      <Footer caption={content.caption} username={content.username} />
+      <Comments
+        docId={content.docId}
+        comments={content.comments}
+        posted={content.dateCreated}
+        commentInput={commentInput}
+      />
     </div>
   );
 }
 
 Post.propTypes = {
   content: PropTypes.shape({
-    usernmae: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
     imageSrc: PropTypes.string.isRequired,
     caption: PropTypes.string.isRequired,
     docId: PropTypes.string.isRequired,

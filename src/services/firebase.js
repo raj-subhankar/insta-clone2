@@ -76,9 +76,9 @@ export async function getPhotos(userId, following) {
     .where("userId", "in", following)
     .get();
 
-  const userFollowedPhotos = result.docs.map((photos) => ({
-    ...photos.data(),
-    docId: photos.id,
+  const userFollowedPhotos = result.docs.map((photo) => ({
+    ...photo.data(),
+    docId: photo.id,
   }));
 
   const photosWithUserDetails = await Promise.all(

@@ -2,7 +2,6 @@ import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import * as ROUTES from "./constants/routes";
 import UserContext from "./context/user";
-import IsUserLoggedIn from "./helpers/is-user-logged-in";
 import ProtectedRoutes from "./helpers/protected-route";
 import useAuthListener from "./hooks/use-auth-listener";
 
@@ -20,23 +19,11 @@ export default function App() {
       <Router>
         <Suspense fallback={<p>Loading...</p>}>
           <Switch>
-            <IsUserLoggedIn
-              user={user}
-              loggedInPath={ROUTES.DASHBOARD}
-              path={ROUTES.LOGIN}
-            >
-              <Login />
-            </IsUserLoggedIn>
-            <IsUserLoggedIn
-              user={user}
-              loggedInPath={ROUTES.DASHBOARD}
-              path={ROUTES.SIGN_UP}
-            >
-              <Route path={ROUTES.SIGN_UP} component={SignUp} exact />
-            </IsUserLoggedIn>
+            <Route path={ROUTES.LOGIN} component={Login} exact />
+            <Route path={ROUTES.SIGN_UP} component={SignUp} exact />
             <Route path={ROUTES.PROFILE} component={Profile} />
             <ProtectedRoutes user={user} path={ROUTES.DASHBOARD} exact>
-              <Route path={ROUTES.DASHBOARD} component={Dashboard} />
+              <Dashboard />
             </ProtectedRoutes>
             <Route component={NotFound} />
           </Switch>
